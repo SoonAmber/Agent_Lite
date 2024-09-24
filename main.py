@@ -38,7 +38,7 @@ def parse_thoughts(response):
         if not thoughts:
             raise ValueError("response 中没有 'thought' 字段")
         
-        observation = thoughts.get("speaker", "")
+        observation = response.get("observation")
         plan = thoughts.get("plan", "")
         criticism = thoughts.get("criticism", "")
         reasoning = thoughts.get("reasoning", "")
@@ -114,7 +114,7 @@ def agent_execute(query,max_request_time=10):
             final_answer = action_args.get("answer")# 这里的answer那来的没看懂。
             print("final answer是：",final_answer)
             break
-        observation = response.get("thought").get("speaker")
+        observation = response.get("observation")
 
         #加一些其他的action
         # 可以写个函数这样方便调用
@@ -134,6 +134,10 @@ def agent_execute(query,max_request_time=10):
         assistant_msg = parse_thoughts(response)
         #chat_history.append([user_prompt,assistant_msg])
         chat_history.append({'assistant': assistant_msg, 'user': user_prompt})
+    if cur_request_time >= max_request_time:
+        print("非常遗憾此次任务执行失败，请重新尝试")
+    else:
+        print("任务执行成功")
 
 def main():
     max_request_time=10

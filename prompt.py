@@ -64,7 +64,7 @@ response_format_prompt = '''
         "speaker": "当前步骤，返回的信息总结",
         "reasoning": "推理"
     },
-    "observation": "执行动作的结果",
+    "observation": "观察目标的当前进度",
     "answer": "推理"
 }
 '''
