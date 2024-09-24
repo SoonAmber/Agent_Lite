@@ -95,6 +95,15 @@ tools_info = [
             "type": "string",
             "description": "Search query"
         }]
+    },
+    {
+        "name": "finish",
+        "description": "完成用户的任务",
+        "args": [{
+            "name": "answer",
+            "type": "string",
+            "description": "最后的目标结果"
+        }]
     }
 ]
 
