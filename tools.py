@@ -132,3 +132,9 @@ def gen_tools_descri():
     # 最后将所有工具描述拼接成一个多行字符串
     tools_prompt = "\n".join(tools_descri)
     return tools_prompt
+
+
+# 与大模型的交互
+# 提示构建: 在 agent_execute 函数中，通过 gen_prompt 将 tools_descri 融入提示中。
+# 决策执行: 大模型基于构建的提示内容，决定使用哪些工具（如读取文件、搜索等）。
+# 在 response 中，指定的 action 将指向 tools_map 中的相应函数

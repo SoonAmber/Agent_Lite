@@ -42,10 +42,9 @@ def parse_thoughts(response):
         plan = thoughts.get("plan", "")
         criticism = thoughts.get("criticism", "")
         reasoning = thoughts.get("reasoning", "")
-        
-
         prompt = f"plan:{plan}\nreasoning:{reasoning}\ncriticism:{criticism}\nobservation:{observation}"
         return prompt
+    
     except Exception as err:
         print("parse thoughts err:{}".format(err))
         return str(err)
@@ -54,6 +53,7 @@ def agent_execute(query,max_request_time=10):
     # 防止陷入死循环，设置最大循环次数
     cur_request_time = 0
     chat_history=[]
+    # 用于记录agent的scratch(反思、规划)
     agent_scratch=''
     #todo
     while cur_request_time < max_request_time:
@@ -80,10 +80,11 @@ def agent_execute(query,max_request_time=10):
         end_time = time.time()
         print("第{}次结束调用llm，耗时{}".format(cur_request_time,end_time-start_time),flush = True)
 
-        #报错处理
+        #希望得到的是json格式的数据，不是就要重试
         if not response or not isinstance(response,dict):
             print("调用大模型错误，即将重试。。",response)
             continue
+        #调用大模型希望得到的回复格式
         '''
         response:
         {
@@ -122,7 +123,7 @@ def agent_execute(query,max_request_time=10):
         try:
             # tools_map的实现
             func = tools_map.get(action_name)
-            observation = func(**action_args) # observatin通常用来保存该操作的输出
+            observation = func(**action_args) # **是将字典中的所有值作为关键字参数传递，并输出对应的值
             #如果 action_name 存在于 tools_map 中，函数将使用 action_args 中的参数执行特定的操作
 
         except Exception as err:

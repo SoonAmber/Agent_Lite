@@ -29,7 +29,7 @@ class ModelProvider(object):
                 messages.append(Message(role='user', content=user_prompt))
 
                 # 调用模型生成回复
-                # response = self.client.chat.completions.create(
+
                 response = self._client.call(
                     model=self.model_name,
                     api_key=self.api_key,

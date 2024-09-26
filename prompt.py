@@ -1,6 +1,6 @@
 from tools import gen_tools_descri
 
-# 修正拼写错误
+
 constraints = [
     "仅使用下面列出的动作",
     "你只能主动行动，再计划行动需要考虑到这一点",
@@ -49,7 +49,9 @@ agent_scratch:
 {response_format_prompt}
 """
 
-# 定义 response_format_prompt
+# 
+# 返回结果直接指定格式可以减少后续工作，不过选模型的时候注意一下有些模型上下文关联太少会丢失这个prompt，
+# 这里直接定义 response_format_prompt
 response_format_prompt = '''
 {
     "action": {
@@ -69,12 +71,7 @@ response_format_prompt = '''
 }
 '''
 
-# 返回结果最好直接指定格式
-# todo: query, agent_scratch, action
-
 actions_prompt = gen_tools_descri()
-
-# 修正 constraints 和 best_practice 的生成格式
 constraints_prompt = "\n".join([f"{idx + 1}. {c}" for idx, c in enumerate(constraints)])
 resources_prompt = "\n".join([f"{idx + 1}. {c}" for idx, c in enumerate(resource)])
 best_practice_prompt = "\n".join([f"{idx + 1}. {c}" for idx, c in enumerate(best_practice)])
